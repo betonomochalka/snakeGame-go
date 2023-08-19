@@ -12,10 +12,13 @@ import (
 
 var (
   lock = sync.Mutex{}
-  x = 0
-  y = 0
+  x = 1
+  y = 1
   direction = "d"
+  coordinates[25][25] string
 )
+
+const snake = "*"
 
 func clearCMD() {
   cmd := exec.Command("clear")
@@ -46,64 +49,42 @@ func takeInput() string {
   return direction
 }
 
-func move() {
-  duration := 1 * time.Second
-
-	for {
-    lock.Lock() 
-      switch direction {
-    case "w":
-      if y != 0 {
-        y--
-      }
-    case "a":
-      if x != 0 {
-        x-- 
-      }
-    case "s":
-      if y != 49 {
-        y++
-      }
-    case "d":
-      if x != 99 {
-        x++
-      }
-    }
-    lock.Unlock()
-    time.Sleep(duration)
-  }
-}
-
 func main() {
-  duratin := 100 * time.Millisecond
-
-  snake := "*"
+  duration := 250 * time.Millisecond
   
   term.Init()
 
   clearCMD()
 
-  go move()
   go takeInput()
 
-  var coordinates[50][100] string
-
-
-
   for {
-   clearCMD()  
+    clearCMD()
 
-    for i := 0; i < 50; i++ {
-      for j := 0; j < 100; j++ {
-        coordinates[i][j] = "-"
+    for i := 0; i < 25; i++ {
+      for j := 0; j < 25; j++ {
+        coordinates[i][j] = " "
       }
     }
 
     lock.Lock()
-    y, x := y, x
-    lock.Unlock()
-    
+    switch direction {
+    case "w":
+      y--
+    case "a":
+      x--
+    case "s":
+      y++
+    case "d":
+      x++
+    }
+
+    if y < 0 || y > 24 || x < 0 || x > 24 {
+      os.Exit(1)
+    }
+
     coordinates[y][x] = snake
+    lock.Unlock()
 
     for i := 0; i < len(coordinates); i++ {
       for j := 0; j < len(coordinates[i]); j++ {
@@ -111,6 +92,6 @@ func main() {
       }
       fmt.Println()
     }
-    time.Sleep(duratin)
+    time.Sleep(duration)
   }
 }
