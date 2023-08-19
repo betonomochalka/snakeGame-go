@@ -18,7 +18,10 @@ var (
   coordinates[25][25] string
 )
 
-const snake = "[]"
+const(
+  snake = "[]"
+  empty = "　"
+)
 
 func clearCMD() {
   cmd := exec.Command("clear")
@@ -50,11 +53,45 @@ func takeInput() string {
 }
 
 func drawField() {
+  for i := 0; i < len(coordinates); i++ {
+    for j := 0; j < len(coordinates[i]); j++ {
+      fmt.Printf(coordinates[i][j])
+    }
+    fmt.Println()
+  }
+}
+
+func makeField() {
   for i := 1; i < 24; i++ {
     for j := 1; j < 24; j++ {
-      coordinates[i][j] = "  "
+      coordinates[i][j] = empty
     }
   }
+
+func moveSnake() {
+  lock.Lock()
+  switch direction {
+  case "w":
+    y--
+  case "a":
+    x--
+  case "s":
+    y++
+  case "d":
+    x++
+  }
+  lock.Unlock()
+}
+
+func gameOver() {
+  if y < 1 || y > 23 || x < 1 || x > 23 {
+    os.Exit(1)
+  }
+}
+
+func drawSnake() {
+  coordinates[y][x] = snake
+}
 
   for i := 0; i < 25; i++ {
     for j := 1; j < 24; j++ {
@@ -77,33 +114,12 @@ func main() {
 
   for {
     clearCMD()
+    makeField()
+    moveSnake()
+    gameOver()
+    drawSnake()
     drawField()
 
-    lock.Lock()
-    switch direction {
-    case "w":
-      y--
-    case "a":
-      x--
-    case "s":
-      y++
-    case "d":
-      x++
-    }
-
-    if y < 1 || y > 23 || x < 1 || x > 23 {
-      os.Exit(1)
-    }
-
-    coordinates[y][x] = snake
-    lock.Unlock()
-
-    for i := 0; i < len(coordinates); i++ {
-      for j := 0; j < len(coordinates[i]); j++ {
-        fmt.Printf(coordinates[i][j])
-      }
-      fmt.Println()
-    }
     time.Sleep(duration)
   }
 }
