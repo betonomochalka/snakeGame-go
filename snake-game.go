@@ -13,12 +13,12 @@ import (
 var (
   lock = sync.Mutex{}
   x = 1
-  y = 1
+  y = 5
   direction = "d"
   coordinates[25][25] string
 )
 
-const snake = "*"
+const snake = "[]"
 
 func clearCMD() {
   cmd := exec.Command("clear")
@@ -49,8 +49,25 @@ func takeInput() string {
   return direction
 }
 
+func drawField() {
+  for i := 1; i < 24; i++ {
+    for j := 1; j < 24; j++ {
+      coordinates[i][j] = "  "
+    }
+  }
+
+  for i := 0; i < 25; i++ {
+    for j := 1; j < 24; j++ {
+      coordinates[i][0] = "|"
+      coordinates[i][24] = "|"
+      coordinates[0][j] = "--"
+      coordinates[24][j] = "--"
+    }
+  }
+}
+
 func main() {
-  duration := 250 * time.Millisecond
+  duration := 175 * time.Millisecond
   
   term.Init()
 
@@ -60,12 +77,7 @@ func main() {
 
   for {
     clearCMD()
-
-    for i := 0; i < 25; i++ {
-      for j := 0; j < 25; j++ {
-        coordinates[i][j] = " "
-      }
-    }
+    drawField()
 
     lock.Lock()
     switch direction {
@@ -79,7 +91,7 @@ func main() {
       x++
     }
 
-    if y < 0 || y > 24 || x < 0 || x > 24 {
+    if y < 1 || y > 23 || x < 1 || x > 23 {
       os.Exit(1)
     }
 
