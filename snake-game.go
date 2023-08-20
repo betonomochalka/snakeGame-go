@@ -6,6 +6,7 @@ import (
   "os/exec"
   "time"
   "sync"
+  "math/rand"
 
   term "github.com/nsf/termbox-go"
 )
@@ -14,12 +15,15 @@ var (
   lock = sync.Mutex{}
   x = 1
   y = 5
+  xApple int
+  yApple int
   direction = "d"
   coordinates[25][25] string
 )
 
 const(
   snake = "[]"
+  apple = "<>"
   empty = "　"
 )
 
@@ -33,6 +37,7 @@ func takeInput() string {
   for {
     switch ev := term.PollEvent(); ev.Type {
       case term.EventKey:
+        lock.Lock()
         switch ev.Key {
           case term.KeyArrowRight:
             direction = "d"
@@ -44,12 +49,8 @@ func takeInput() string {
             direction = "w"
         }
     }
+    lock.Unlock()
   }
-  
-  if direction == "w" || direction == "s" || direction == "a" || direction == "d" {
-    return direction 
-  }
-  return direction
 }
 
 func drawField() {
@@ -61,24 +62,23 @@ func drawField() {
   }
 }
 
-func makeField() {
-  for i := 1; i < 24; i++ {
-    for j := 1; j < 24; j++ {
-      coordinates[i][j] = empty
-    }
-  }
-
 func moveSnake() {
+  oldx := x
+  oldy := y
   lock.Lock()
   switch direction {
   case "w":
     y--
+    coordinates[oldy][oldx] = empty
   case "a":
     x--
+    coordinates[oldy][oldx] = empty
   case "s":
     y++
+    coordinates[oldy][oldx] = empty
   case "d":
     x++
+    coordinates[oldy][oldx] = empty
   }
   lock.Unlock()
 }
@@ -93,6 +93,13 @@ func drawSnake() {
   coordinates[y][x] = snake
 }
 
+func makeField() {
+  for i := 1; i < 24; i++ {
+    for j := 1; j < 24; j++ {
+      coordinates[i][j] = empty
+    }
+  } 
+
   for i := 0; i < 25; i++ {
     for j := 1; j < 24; j++ {
       coordinates[i][0] = "|"
@@ -103,8 +110,25 @@ func drawSnake() {
   }
 }
 
+func makeApple() {
+  if coordinates[yApple][xApple] != apple {
+    rand.Seed(time.Now().UnixNano())
+
+    xApple = rand.Intn(23-2)+1
+    yApple = rand.Intn(23-2)+1
+
+
+    if coordinates[yApple][xApple] == snake {
+      makeApple()
+      return
+    }
+
+    coordinates[yApple][xApple] = apple
+  }
+}
+
 func main() {
-  duration := 175 * time.Millisecond
+  duration := 17 * time.Millisecond
   
   term.Init()
 
@@ -112,13 +136,17 @@ func main() {
 
   go takeInput()
 
-  for {
+  makeField()
+
+  for i := 0; ; i++{
     clearCMD()
-    makeField()
-    moveSnake()
-    gameOver()
     drawSnake()
     drawField()
+    makeApple()
+    if i%10 == 0 {
+      moveSnake()
+    }
+    gameOver()
 
     time.Sleep(duration)
   }
