@@ -99,8 +99,9 @@ func drawField() {
 }
 
 func moveSnake() {
+  lock.Lock()
+  defer lock.Unlock()
   if ln == 2 {
-    lock.Lock()
     if direction == "w" {
       oldX, oldY = x, y
       y--
@@ -363,7 +364,6 @@ func moveSnake() {
       coordinates[y5][x5] = snake
       coordinates[oldY5][oldX5] = empty
     }
-    lock.Unlock()
   } else if ln == 6 {
     fmt.Println("You won!!!")
     os.Exit(1)
