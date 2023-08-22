@@ -104,6 +104,9 @@ func moveSnake() {
     if direction == "w" {
       oldX, oldY = x, y
       y--
+      if x < 1 || x > 23 || y < 1 || y > 23 {
+        gameOver()
+      }
       coordinates[y][x] = snake
       oldX2, oldY2 = x2, y2
       x2, y2 = oldX, oldY
@@ -112,6 +115,9 @@ func moveSnake() {
     } else if direction == "d" {
       oldX, oldY = x, y
       x++
+      if x < 1 || x > 23 || y < 1 || y > 23 {
+        gameOver()
+      }
       coordinates[y][x] = snake
       oldX2, oldY2 = x2, y2
       x2, y2 = oldX, oldY
@@ -120,6 +126,9 @@ func moveSnake() {
     } else if direction == "a" {
       oldX, oldY = x, y
       x--
+      if x < 1 || x > 23 || y < 1 || y > 23 {
+        gameOver()
+      }
       coordinates[y][x] = snake
       oldX2, oldY2 = x2, y2
       x2, y2 = oldX, oldY
@@ -128,6 +137,9 @@ func moveSnake() {
     } else if direction == "s" {
       oldX, oldY = x, y
       y++
+      if x < 1 || x > 23 || y < 1 || y > 23 {
+        gameOver()
+      }
       coordinates[y][x] = snake
       oldX2, oldY2 = x2, y2
       x2, y2 = oldX, oldY
@@ -141,6 +153,9 @@ func moveSnake() {
     if direction == "w" {
       oldX, oldY = x, y
       y--
+      if x < 1 || x > 23 || y < 1 || y > 23 {
+        gameOver()
+      }
       coordinates[y][x] = snake
       oldX2, oldY2 = x2, y2
       x2, y2 = oldX, oldY
@@ -152,6 +167,9 @@ func moveSnake() {
     } else if direction == "d" {
       oldX, oldY = x, y
       x++
+      if x < 1 || x > 23 || y < 1 || y > 23 {
+        gameOver()
+      }
       coordinates[y][x] = snake
       oldX2, oldY2 = x2, y2
       x2, y2 = oldX, oldY
@@ -163,6 +181,9 @@ func moveSnake() {
     } else if direction == "a" {
       oldX, oldY = x, y
       x--
+      if x < 1 || x > 23 || y < 1 || y > 23 {
+        gameOver()
+      }
       coordinates[y][x] = snake
       oldX2, oldY2 = x2, y2
       x2, y2 = oldX, oldY
@@ -174,6 +195,9 @@ func moveSnake() {
     } else if direction == "s" {
       oldX, oldY = x, y
       y++
+      if x < 1 || x > 23 || y < 1 || y > 23 {
+        gameOver()
+      }
       coordinates[y][x] = snake
       oldX2, oldY2 = x2, y2
       x2, y2 = oldX, oldY
@@ -189,6 +213,9 @@ func moveSnake() {
     if direction == "w" {
       oldX, oldY = x, y
       y--
+      if coordinates[y][x] == snake || x < 1 || x > 23 || y < 1 || y > 23 {
+        gameOver()
+      }
       coordinates[y][x] = snake
       oldX2, oldY2 = x2, y2
       x2, y2 = oldX, oldY
@@ -203,6 +230,9 @@ func moveSnake() {
     } else if direction == "d" {
       oldX, oldY = x, y
       x++
+      if coordinates[y][x] == snake || x < 1 || x > 23 || y < 1 || y > 23 {
+        gameOver()
+      }
       coordinates[y][x] = snake
       oldX2, oldY2 = x2, y2
       x2, y2 = oldX, oldY
@@ -217,6 +247,9 @@ func moveSnake() {
     } else if direction == "a" {
       oldX, oldY = x, y
       x--
+      if coordinates[y][x] == snake || x < 1 || x > 23 || y < 1 || y > 23 {
+        gameOver()
+      }
       coordinates[y][x] = snake
       oldX2, oldY2 = x2, y2
       x2, y2 = oldX, oldY
@@ -231,6 +264,9 @@ func moveSnake() {
     } else if direction == "s" {
       oldX, oldY = x, y
       y++
+      if coordinates[y][x] == snake || x < 1 || x > 23 || y < 1 || y > 23 {
+        gameOver()
+      }
       coordinates[y][x] = snake
       oldX2, oldY2 = x2, y2
       x2, y2 = oldX, oldY
@@ -249,6 +285,9 @@ func moveSnake() {
     if direction == "w" {
       oldX, oldY = x, y
       y--
+      if coordinates[y][x] == snake || x < 1 || x > 23 || y < 1 || y > 23 {
+        gameOver()
+      }
       coordinates[y][x] = snake
       oldX2, oldY2 = x2, y2
       x2, y2 = oldX, oldY
@@ -266,6 +305,9 @@ func moveSnake() {
     } else if direction == "d" {
       oldX, oldY = x, y
       x++
+      if coordinates[y][x] == snake || x < 1 || x > 23 || y < 1 || y > 23 {
+        gameOver()
+      }
       coordinates[y][x] = snake
       oldX2, oldY2 = x2, y2
       x2, y2 = oldX, oldY
@@ -283,6 +325,9 @@ func moveSnake() {
     } else if direction == "a" {
       oldX, oldY = x, y
       x--
+      if coordinates[y][x] == snake || x < 1 || x > 23 || y < 1 || y > 23 {
+        gameOver()
+      }
       coordinates[y][x] = snake
       oldX2, oldY2 = x2, y2
       x2, y2 = oldX, oldY
@@ -300,6 +345,9 @@ func moveSnake() {
     } else if direction == "s" {
       oldX, oldY = x, y
       y++
+      if coordinates[y][x] == snake || x < 1 || x > 23 || y < 1 || y > 23 {
+        gameOver()
+      }
       coordinates[y][x] = snake
       oldX2, oldY2 = x2, y2
       x2, y2 = oldX, oldY
@@ -316,13 +364,15 @@ func moveSnake() {
       coordinates[oldY5][oldX5] = empty
     }
     lock.Unlock()
+  } else if ln == 6 {
+    fmt.Println("You won!!!")
+    os.Exit(1)
   }
 }
 
 func gameOver() {
-  if y < 1 || y > 23 || x < 1 || x > 23 {
-    os.Exit(1)
-  }
+  fmt.Println("You lost(((")
+  os.Exit(1)
 }
 
 func makeField() {
@@ -372,7 +422,6 @@ func main() {
     }
     drawField()
     makeApple()
-    gameOver()
 
     time.Sleep(duration)
   }
